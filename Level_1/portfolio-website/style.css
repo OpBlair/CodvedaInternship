@@ -3,13 +3,19 @@
     padding: 0;
     box-sizing: border-box;
 }
-header ul{
+header{
     background-color: cyan;
+    padding: 10px;
+}
+header ul{
     display: flex;
     flex-direction: row;
     gap: 20px;
-    padding: 10px;
-}
-li{
     list-style-type: none;
+}
+header li{
+    text-transform: capitalize;
+}
+header li:hover{
+    cursor: pointer;
 }
