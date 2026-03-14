@@ -29,6 +29,30 @@
                     <li><a href="mailto:myemail@email.com">Email</a></li>
                 </ul>
             </section>
+            <section>
+                <h2>Request a Quote</h2>
+                <form>
+                    <div>
+                        <input type="text" id="name" placeholder="Full Name" required>
+                        <input type="email" id="email" placeholder="Email Address" required>
+                    </div>
+                    <select name="service" id="service">
+                        <option value="">Select a Service</option>
+                        <option value="web">Web Development</option>
+                        <option value="app">App Development</option>
+                        <option value="seo">SEO Optimization</option>
+                        <option value="refactor">Review & Refactor Application Code</option>
+                    </select>
+                    <textarea name="message" id="message" placeholder="Tell me about your project..."></textarea>
+                    <button type="submit" class="cta-button">Send Request</button>
+                    <p id="formFeedback"></p>
+                </form>
+            </section>
         </main>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2026 Tonny Blair</p>
+            </div>
+        </footer>
     </body>
 </html>
