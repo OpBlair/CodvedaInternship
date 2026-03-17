@@ -1,1 +1,13 @@
-// Calculator App Button controller component
+// Calculator App Button component
+import React from "react";
+import "./button.css";
+
+const Button = ({ children, onClick, className }) => {
+  return (
+    <button className={`button ${className || ""}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+export default Button;

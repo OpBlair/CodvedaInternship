@@ -1,0 +1,13 @@
+.display{
+    background-color: white;
+    color: black;
+    width: 290px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    overflow: none;
+}
