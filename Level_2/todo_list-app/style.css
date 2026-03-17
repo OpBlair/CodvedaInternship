@@ -3,3 +3,109 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{ 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f7f6;
+    font-family: sans-serif;
+}
+main{
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+header{ margin-bottom: 30px; }
+.controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+h1,h3{
+    text-transform: capitalize;
+}
+#form-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+#todo-form{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+button{
+    border: none;
+    padding: 12px 24px;
+    color: white;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+    margin: 0 20px 0 0;
+    text-transform: capitalize;
+}
+#show-form-btn{
+    height: 45px;
+    box-sizing: border-box;
+}
+button#show-form-btn{
+    background-color: #28a745;
+}
+button#show-form-btn:hover{
+    background-color: #218828;
+    transform: translateY(-2px);
+}
+button#show-form-btn:active{
+    transform: translateY(0);
+}
+#todo-form button{
+    padding: 10px 20px;
+    transition: background 0.2s;
+}
+#todo-form button[type="submit"]{
+    background-color: #0075ff;
+    color: white;
+}
+#todo-form button[type="submit"]:hover{
+    background-color: #0056b3;
+}
+#cancel-btn{
+    background-color: #df1a10;
+    color: white;
+}
+#filter-task{
+    padding: 8px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    box-sizing: border-box;
+    color: #333;
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    height: 45px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+#filter-task:focus{
+    border-color: #007bff;
+}

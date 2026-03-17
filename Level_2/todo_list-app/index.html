@@ -5,19 +5,51 @@
             Todo_list App
         </title>
         <link rel="stylesheet" href="style.css">
+        <script defer src="todoApp.js"></script>
     </head>
     <body>
         <main>
-            <nav>
-                <ul>
-                    <li>all tasks</li>
-                    <li>completed</li>
-                </ul>
-            </nav>
+            <header>
+                <h1>my todo list</h1>
+            </header>
             <section>
-                <div>
-                    <input type="text" placeholder="enter new task">
-                    <button>add</button>
+                <div class="controls">
+                    <button id="show-form-btn">add task</button>
+                
+                    <div class="filter">
+                        <select name="filter" id="filter-task">
+                            <option value="all">all</option>
+                            <option value="active">active</option>
+                            <option value="completed">completed</option>
+                        </select>
+                    </div>
+                </div>
+                <ul id="task-list"></ul>
+
+                <div id="form-overlay" style="display: none;">
+                    <form id="todo-form">
+                        <h3>add new task</h3>
+                        <input type="text" id="task-input" placeholder="what needs to be done ?" required>
+                        
+                        <div class="form-group">
+                            <label for="task-date">Due Date:</label>
+                            <input type="datetime-local" id="task-date">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-priority">Priority:</label>
+                            <select name="task-priority" id="task-priority">
+                                <option value="low">low</option>
+                                <option value="medium">medium</option>
+                                <option value="high">high</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-button">
+                            <button type="submit">add</button>
+                            <button type="button" id="cancel-btn">cancel</button>
+                        </div>
+                    </form>
                 </div>
             </section>
         </main>
