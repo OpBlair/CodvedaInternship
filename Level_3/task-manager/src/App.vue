@@ -4,7 +4,7 @@
     
     <section>
       <div class="controls">
-        <button class="add-task-btn" @click="showForm = true">add task</button>
+        <button class="add-task-btn" @click="showForm = true">+ add task</button>
         <div class="task-filter">
           <label for="task-priority">filter: </label>
           <select>
