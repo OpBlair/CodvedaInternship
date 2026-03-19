@@ -1,12 +1,22 @@
 <template>
   <div class="app-container">
+    <!-- header -->
+    <header class="app-header">
+        <div class="user-info">
+            <div class="user-initial">T</div>
+            <span class="user-name">Tonny</span>
+        </div>
+        <button @click="logout" class="logout-btn">logout</button>
+    </header>
+
+    <!-- Task Manager Content-->
     <h1>My Task Manager</h1>
     
     <section>
       <div class="controls">
         <button class="add-task-btn" @click="showForm = true">+ add task</button>
         <div class="task-filter">
-          <label for="task-priority">filter: </label>
+          <label for="task-filter">filter: </label>
           <select>
             <option value="all">all</option>
             <option value="active">active</option>
@@ -47,14 +57,53 @@
 
 <script>
   export default {
-    name: 'App',
+    name: 'TaskManager',
     data() {
       return { showForm: false}
+    },
+    methods: {
+        logout(){
+            this.$router.push('/')
+        }
     }
   }
 </script>
 
 <style scoped>
+    .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .user-initial {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #2563eb;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+    .logout-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: bold;
+        border-radius: 8px;
+    }
     .app-container{
     max-width: 500px;
     margin: 50px auto;
