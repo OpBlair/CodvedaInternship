@@ -33,8 +33,10 @@ todoForm.addEventListener('submit', (e) => {
             <input type="checkbox" class="complete-checkbox">
             <div class="task-details">
                 <span class="task-name">${taskName}</span>
-                <small class="task-time">${formattedDate}</small>
-                <small>Priority: ${taskPriority}</small>
+                <div class="task-meta">
+                    <small class="task-time">${formattedDate}</small>
+                    <small class="task-priority">Priority: ${taskPriority}</small>
+                </div>
             </div>
         </div>
         <div class="task-right">
@@ -55,7 +57,6 @@ taskList.addEventListener('click', (e) => {
         li.remove();
     }
 })
-
 // CheckBox Logic
 taskList.addEventListener('change', (e) => {
     if (e.target.classList.contains('complete-checkbox')) {
