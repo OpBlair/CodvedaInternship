@@ -7,6 +7,9 @@ const taskInput = document.getElementById('task-input');
 const cancelBtn = document.getElementById('cancel-btn');
 const date = document.getElementById('task-date');
 
+// Local Storage
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
 // Toggle Form visibilty
 showFormBtn.addEventListener('click', () => {
     formOverlay.style.display = 'flex';
@@ -24,6 +27,15 @@ todoForm.addEventListener('submit', (e) => {
     const taskPriority = document.getElementById('task-priority').value;
     const taskDate = date.value;
     const formattedDate = taskDate ? taskDate.replace('T', ' ') : 'No deadline';
+
+    // New Task Object
+    const newTask = {
+        id: Date.now(),
+        name: taskName,
+        date: formattedDate,
+        priority: taskPriority,
+        completed: false
+    };
 
     const li = document.createElement('li');
     li.classList.add('taskName', `${taskPriority}-taskPriority`);
@@ -44,6 +56,9 @@ todoForm.addEventListener('submit', (e) => {
         </div>
     `;
 
+    tasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    
     taskList.appendChild(li);
 
     taskInput.value = '';
