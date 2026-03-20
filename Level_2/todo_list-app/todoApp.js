@@ -10,6 +10,32 @@ const date = document.getElementById('task-date');
 // Local Storage
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.classList.add('taskName', `${task.priority}-taskPriority`);
+    if(task.completed) li.classList.add('completed');
+
+    li.dataset.id = task.id;
+
+    li.innerHTML = `
+        <div class="task-left">
+            <input type="checkbox" class="complete-checkbox" ${task.completed ? 'checked' : ''}>
+            <div class="task-details">
+                <span class="task-name">${task.name}</span>
+                <div class="task-meta">
+                    <small class="task-time">${task.date}</small>
+                    <small class="task-priority">Priority: ${task.priority}</small>
+                </div>
+            </div>
+        </div>
+        <div class="task-right">
+            <button class="delete-btn">Delete</button>
+        </div>
+    `;
+
+    taskList.appendChild(li);
+})
+
 // Toggle Form visibilty
 showFormBtn.addEventListener('click', () => {
     formOverlay.style.display = 'flex';
@@ -39,7 +65,13 @@ todoForm.addEventListener('submit', (e) => {
 
     const li = document.createElement('li');
     li.classList.add('taskName', `${taskPriority}-taskPriority`);
-
+    
+    // First save to Local Storage.
+    tasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    li.dataset.id = newTask.id;
+    
+    // Then update the UI(DOM)
     li.innerHTML = `
         <div class="task-left">
             <input type="checkbox" class="complete-checkbox">
@@ -56,19 +88,30 @@ todoForm.addEventListener('submit', (e) => {
         </div>
     `;
 
-    tasks.push(newTask);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    
     taskList.appendChild(li);
 
     taskInput.value = '';
     date.value = '';
     formOverlay.style.display = 'none';
 })
-// Adding functionality to Task delete button 
+
+// Delete Task button 
 taskList.addEventListener('click', (e) => {
     if (e.target.classList.contains('delete-btn')) {
         const li = e.target.closest('li');
+        const id = Number(li.dataset.id);
+
+        const taskIndex = tasks.findIndex(task => task.id === id);
+
+        if(taskIndex !== -1){
+            // Remove the task from the storage array
+            tasks.splice(taskIndex, 1);
+
+            // Update localStorage
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+        
+        // Remove item from DOM
         li.remove();
     }
 })
@@ -77,5 +120,16 @@ taskList.addEventListener('change', (e) => {
     if (e.target.classList.contains('complete-checkbox')) {
         const li = e.target.closest('li');
         li.classList.toggle('completed');
+
+        const id = Number(li.dataset.id);
+
+        for(let i = 0; i < tasks.length; i++){
+            if(tasks[i].id === id){
+                tasks[i].completed = e.target.checked;
+                break;
+            }
+        }
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 })
