@@ -4,35 +4,48 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <script defer src="projects.js"></script>
+        <script defer src="porfolio.js"></script>
         <title>Portfolio Website</title>
     </head>
     <body>
-        <main>
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="about.html">about</a></li>
-                        <li><a href="projects.html">projects</a></li>
-                        <li><a href="contact.html">contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <section>
-                <p>
-                    I'm a second-year Computer Science student with a knack for turning ideas into real solutions. My journey in tech is fueled by curiosity and a drive to keep learning. I enjoy building projects, experimenting with new technologies, and solving challenges that push me to grow. Away from my IDE, am probably thinking of how to solve a bug I walked away from, new idea, or perhaps, with the strings of a guitar.
-                </p>
-                <p>
-                    I'm currently honing my skills in Javascript, Python, PHP, SQL, C/C++, CSS, Tailwind, 
-                </p>
-
-                <strong>Here's my tech stack</strong>
+        <header>
+            <nav class="container">
+                <div class="logo"><strong>TB</strong>.dev</div>  
                 <ul>
-                    <li><strong>Languages:</strong> <span class="tag">Javascript</span></li>
-                    <li><strong>Tools:</strong> <span>|</span></li>
-                    <li><strong>Tech</strong> <span>|</span></li>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                    <li><a href="contact.html">contact</a></li>
                 </ul>
+            </nav>
+        </header>
+        <main class="container">
+            <section class="about-section">
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>I'm a second-year Computer Science student with a knack for turning ideas into real solutions. My journey in tech is fueled by curiosity and a drive to keep learning. I enjoy building projects, experimenting with new technologies, and solving challenges that push me to grow.</p>
+                        <p>Away from my IDE, am probably thinking of how to solve a bug I walked away from, new idea, or perhaps, with the strings of a guitar.</p>
+                        <p>I'm currently honing my skills in Javascript, Python, PHP, SQL, C/C++, CSS, Tailwind.</p>
+                    </div>
+
+                    <aside class="tech-stack-card">
+                        <div class="tech-stack">
+                            <h3>My Tech Stack</h3>
+                            <div class="stack-group">
+                                <strong>Langauges</strong>
+                                <span class="tag">Javascript</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Java</span>
+                                <span class="tag">PHP</span>
+                            </div>
+                            <div class="stack-group">
+                                <strong>Tools:</strong>
+                                <span class="tag">Git</span>
+                                <span class="tag">Figma</span>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
             </section>
         </main>
         <footer>

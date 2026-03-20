@@ -4,54 +4,54 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <script defer src="projects.js"></script>
+        <script defer src="porfolio.js"></script>
         <title>Portfolio Website</title>
     </head>
     <body>
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="about.html">about</a></li>
-                        <li><a href="projects.html">projects</a></li>
-                        <li><a href="contact.html">contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-        <main class="contact-container">
-
-            <section class="contact-info">
-                <p>
-                    Got an <strong>idea</strong>, a <strong>collaboration</strong>, or just want to want to say hi? Feel free to reach out? I'd love to connect and discuss opportunities to create something amazing together.
-                </p>
-                <h3>
-                    You can reach out on these platforms.
-                </h3>
+        <header>
+            <nav class="container">
+                <div class="logo"><strong>TB</strong>.dev</div>  
                 <ul>
-                    <li><a href="#">LinkedIn</a></li>
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="mailto:myemail@email.com">Email</a></li>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                    <li><a href="contact.html">contact</a></li>
                 </ul>
-            </section>
-            <section class="contact-form">
-                <h2>Request a Quote</h2>
-                <form>
-                    <div class="input-group">
-                        <input type="text" id="name" placeholder="Full Name" required>
-                        <input type="email" id="email" placeholder="Email Address" required>
-                    </div>
-                    <select name="service" id="service">
-                        <option value="">Select a Service</option>
-                        <option value="web">Web Development</option>
-                        <option value="app">App Development</option>
-                        <option value="seo">SEO Optimization</option>
-                        <option value="refactor">Review & Refactor Application Code</option>
-                    </select>
-                    <textarea name="message" id="message" placeholder="Tell me about your project..."></textarea>
-                    <button type="submit" class="cta-button">Send Request</button>
-                    <p id="formFeedback"></p>
-                </form>
-            </section>
+            </nav>
+        </header>
+        <main class="contact-container container">
+            <div class="contact-wrapper">
+                <section class="contact-info">
+                    <h2>Let's <span class="highlight">Connect</span></h2>
+                    <p>Got an <strong>idea</strong>, a <strong>collaboration</strong>, or just want to want to say hi? Feel free to reach out? I'd love to connect and discuss opportunities to create something amazing together.</p>
+                    <h3>Reach out on these platforms.</h3>
+                    <ul class="social-links">
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="mailto:myemail@email.com">Email</a></li>
+                    </ul>
+                </section>
+
+                <section class="contact-form">
+                    <h2>Request a Quote</h2>
+                    <form>
+                        <div class="input-group">
+                            <input type="text" id="name" placeholder="Full Name" required>
+                            <input type="email" id="email" placeholder="Email Address" required>
+                        </div>
+                        <select name="service" id="service">
+                            <option value="">Select a Service</option>
+                            <option value="web">Web Development</option>
+                            <option value="app">App Development</option>
+                            <option value="seo">SEO Optimization</option>
+                            <option value="refactor">Review & Refactor Application Code</option>
+                        </select>
+                        <textarea name="message" id="message" placeholder="Tell me about your project..."></textarea>
+                        <button type="submit" class="cta-button">Send Request</button>
+                        <div id="formFeedback"> </div>
+                    </form>
+                </section>
+            </div>
         </main>
         <footer>
             <div class="footer-content">

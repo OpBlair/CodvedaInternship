@@ -4,34 +4,36 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <script defer src="projects.js"></script>
+        <script defer src="porfolio.js"></script>
         <title>Portfolio Website</title>
     </head>
     <body>
+        <header>
+            <nav class="container">
+                <div class="logo"><strong>TB</strong>.dev</div>  
+                <ul>
+                    <li><a href="index.html">home</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <li><a href="projects.html">projects</a></li>
+                    <li><a href="contact.html">contact</a></li>
+                </ul>
+            </nav>
+        </header>
         <main>
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">home</a></li>
-                        <li><a href="about.html">about</a></li>
-                        <li><a href="projects.html">projects</a></li>
-                        <li><a href="contact.html">contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <section>
+            <section class="container">
                 <p>
                     Here's a collection of some projects I've built to sharpen my skills and explore new tech, bring ideas to reality. Each project represents a problem I tackled, a skill I learned, and a step forward in my journey as a developer.
                 </p>
+                <section class="project-grid">
+                    <div class="project-card">
+                        <h2>The Project Name</h2>
+                        <p><strong>Problem</strong> Brief description</p>
+                        <p><strong>Tech</strong>HTML</p>
+                        <p>live demo</p>
+                    </div>
+                </section>
             </section>
-            <section class="project-grid">
-                <div class="project-card">
-                    <h2>The Project Name</h2>
-                    <p><strong>Problem</strong> Brief description</p>
-                    <p><strong>Tech</strong>HTML</p>
-                    <p>live demo</p>
-                </div>
-            </section>
+
         </main>
         <footer>
             <div class="footer-content">
