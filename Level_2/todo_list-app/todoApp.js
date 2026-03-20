@@ -48,5 +48,18 @@ todoForm.addEventListener('submit', (e) => {
     date.value = '';
     formOverlay.style.display = 'none';
 })
+// Adding functionality to Task delete button 
+taskList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-btn')) {
+        const li = e.target.closest('li');
+        li.remove();
+    }
+})
 
-
+// CheckBox Logic
+taskList.addEventListener('change', (e) => {
+    if (e.target.classList.contains('complete-checkbox')) {
+        const li = e.target.closest('li');
+        li.classList.toggle('completed');
+    }
+})
