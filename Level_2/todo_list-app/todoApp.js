@@ -6,6 +6,7 @@ const taskList = document.getElementById('task-list');
 const taskInput = document.getElementById('task-input');
 const cancelBtn = document.getElementById('cancel-btn');
 const date = document.getElementById('task-date');
+const filterDropdown = document.getElementById('filter-task');
 
 // Local Storage
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -133,3 +134,25 @@ taskList.addEventListener('change', (e) => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 })
+
+// Tasks Filter
+filterDropdown.addEventListener('change', (e) => {
+    const filterValue = e.target.value;
+    const allTasks = taskList.querySelectorAll('li');
+
+    allTasks.forEach(li => {
+        const isCompleted = li.classList.contains('completed');
+
+        switch(filterValue){
+            case 'all':
+                li.style.display = 'flex';
+                break;
+            case 'completed':
+                li.style.display = isCompleted ? 'flex' : 'none';
+                break;
+            case 'active':
+                li.style.display = !isCompleted ? 'flex' : 'none';
+                break;
+        }
+    })
+}) 
