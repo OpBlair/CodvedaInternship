@@ -25,6 +25,24 @@ const Calculator = () => {
         setInput("");
     };
 
+    const calculate = () => {
+        let result = 0;
+        const num1 = parseFloat(previous);
+        const num2 = parseFloat(input);
+
+        //if (isNaN(num1) || isNaN(num2)) return;
+        switch (operator) {
+            case "/": result = num1 / num2; break;
+            case "*": result = num1 * num2; break;
+            case "+": result = num1 + num2; break;
+            case "-": result = num1 - num2; break;
+        }
+
+        setInput(result.toString());
+        setOperator("")
+        setPrevious("");
+    };
+
     return (
         <div className="calculator">
             <Display value = { previous && operator ? `${previous} ${operator} ${input}` : input || "0"}></Display>
@@ -48,7 +66,7 @@ const Calculator = () => {
                 <Button onClick={() => handleClick("0")}>0</Button>
                 <Button onClick={() => handleClick(".")}>.</Button>
                 <Button onClick={() => handleClick("C")}>C</Button>
-                <Button className="operator">=</Button>
+                <Button onClick={calculate} className="operator">=</Button>
                 
             </div>
         </div>
