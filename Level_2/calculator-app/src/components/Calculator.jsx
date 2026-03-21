@@ -25,31 +25,52 @@ const Calculator = () => {
         setInput("");
     };
 
+    // BASIC ARITHMETIC CALCULATIONS
     const calculate = () => {
         let result = 0;
         const num1 = parseFloat(previous);
         const num2 = parseFloat(input);
 
-        //if (isNaN(num1) || isNaN(num2)) return;
+        if (isNaN(num1) || isNaN(num2)) return;
         switch (operator) {
-            case "/": result = num1 / num2; break;
+            // Basic Math operations following BODMAS 
+            case "/": result = num2 !== 0 ? num1 / num2 : "Can't divide by 0"; break;
             case "*": result = num1 * num2; break;
             case "+": result = num1 + num2; break;
             case "-": result = num1 - num2; break;
+            default: return;
         }
 
         setInput(result.toString());
-        setOperator("")
+        setOperator("");
         setPrevious("");
     };
+
+    // TRIGONOMETRY FUNCTION CALCULATIONS
+    const handleTrigFunc = (trigFunction) => {
+        const current = parseFloat(input);
+        if (isNaN(current)) return;
+
+        let result = 0;
+        switch (trigFunction) {
+            case "sin": result = Math.sin(current * (Math.PI / 180)).toFixed(4); break;
+            case "cos": result = Math.cos(current * (Math.PI / 180)).toFixed(4); break;
+            case "tan": result = Math.tan(current * (Math.PI / 180)).toFixed(4); break;
+            default: return;
+        }
+
+        setInput(result.toString());
+        setOperator("");
+        setPrevious("");
+    }
 
     return (
         <div className="calculator">
             <Display value = { previous && operator ? `${previous} ${operator} ${input}` : input || "0"}></Display>
             <div className="buttons">
-                <Button onClick={() => handleOperator("sin")} className="func">sine</Button>
-                <Button onClick={() => handleOperator("cos")} className="func">cosine</Button>
-                <Button onClick={() => handleOperator("tan")} className="func">tanh</Button>             
+                <Button onClick={() => handleTrigFunc("sin")} className="func">sine</Button>
+                <Button onClick={() => handleTrigFunc("cos")} className="func">cosine</Button>
+                <Button onClick={() => handleTrigFunc("tan")} className="func">tan</Button>             
                 <Button onClick={() => handleOperator("/")} className="operator">/</Button>
                 <Button onClick={() => handleClick("9")}>9</Button>                
                 <Button onClick={() => handleClick("8")}>8</Button>
