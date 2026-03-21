@@ -32,18 +32,30 @@
           <form class="task-form" @submit.prevent>
             <label for="task-name">task name</label>
             <input id="task-name" name="task-name" placeholder="what needs to be done ?"/>
-            <label for="task-priority">priority: </label>
-              <select id="task-priority">
-                <option value="low">low</option>
-                <option value="medium">medium</option>
-                <option value="high">high</option>
-              </select>
 
+            <!-- Task Category -->
+            <label for="task-category">category: </label>
+            <select name="task-category" id="task-category">
+              <option value="work">work</option>
+              <option value="school">school</option>
+              <option value="personal">personal</option>
+            </select>
+
+            <!-- Task Priority -->
+            <label for="task-priority">priority: </label>
+            <select id="task-priority">
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select>
+
+            <!-- Task Due Date -->
             <div class="form-group">
               <label for="task-datetime">Due Date & Time</label>
               <input type="datetime-local" id="task-datetime"/>
             </div>
               
+            <!-- Form Buttons -->
             <div class="form-actions">
               <button type="submit">add</button>
               <button type="button" @click="showForm = false">cancel</button>
@@ -145,6 +157,7 @@
     cursor: pointer;
     color: black
     }
+    .task-form input { cursor: text !important; }
     .modal-overlay{
     position: fixed;
     top: 0;
