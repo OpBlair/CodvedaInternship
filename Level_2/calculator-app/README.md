@@ -1,16 +1,42 @@
-# React + Vite
+# React Calculator App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+This is a calculator built using React, it supports:
 
-Currently, two official plugins are available:
+1. Basic arithmetic operations (+, -, x, /)
+2. Trigonometric functions (sin, cos, tan)
+3. Decimal input
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
+1. State based input handling
+2. Dynamic display formatting
+3. Error handling for invalid inputs
+4. Support for unary and binary operations
+5. Basic Arithmetic & Scientic Functions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## How it works
+The calculator uses three main states:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **input**: The current number entered
+2. **previous**: The stored first operand
+3. **operator**: The selected operation
+
+---
+
+## What I Learned
+- **State Management**: Using state to track user input
+- **Conditional Rendering**: using tenary operators to change display.
+- **Type Conversion**: Using `parseFloat()`, `toString()`, and `isNaN()`
+- **Component Structure**: Breaking the UI into reusable components.
+
+---
+
+## Future Improvements
+- Keyboard input support
+- Backspace functionality
+- Chaining
+- Expression based 
