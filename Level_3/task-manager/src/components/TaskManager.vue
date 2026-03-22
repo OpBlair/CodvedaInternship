@@ -30,8 +30,13 @@
       <div class="modal-overlay" v-if="showForm">
         <div class="task-container">
           <form class="task-form" @submit.prevent>
+            <!-- Task Name -->
             <label for="task-name">task name</label>
             <input id="task-name" name="task-name" placeholder="what needs to be done ?"/>
+
+            <!-- Task Description -->
+             <label for="task-description">description</label>
+             <textarea name="text-description" id="text-description" placeholder="details of the task..." rows="4"></textarea>
 
             <!-- Task Category -->
             <label for="task-category">category: </label>
