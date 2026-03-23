@@ -1,3 +1,5 @@
+// Logic to Start the server and link to the database
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config(); 
