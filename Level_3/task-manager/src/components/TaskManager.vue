@@ -28,15 +28,22 @@
 
       <!-- Task Display -->
       <ul v-if="tasks.length" class="task-display-list">
-        <li v-for="(task, index) in tasks" :key="index" class="task-card">
-          <h3>{{ task.name }}</h3>
-          <p>{{ task.description }}</p>
-          <input type="checkbox" v-model="task.completed">
-          <small>
-            {{ task.category }} | {{ task.priority }} | {{ task.dueDate }}
-          </small>
-          <button @click="editTask(index)" class="edit-task-btn">Edit</button>
-          <button @click="deleteTask(index)" class="delete-task-btn">Delete</button>
+        <li v-for="(task, index) in tasks" :key="index" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.completed }]">
+          <div class="task-info">
+            <input type="checkbox" v-model="task.completed">
+            <div class="task-content">
+              <h3 class="task-title">{{ task.name }}</h3>
+              <p class="task-desc">{{ task.description }}</p>
+              <div class="task-metadata">
+                <span class="badge">{{ task.category }}</span>
+                <span class="due-date">{{ task.dueDate.replace('T', '') }}</span>               
+              </div>
+            </div>
+          </div>
+          <div class="task-actions">
+            <button @click="editTask(index)" class="edit-task-btn">Edit</button>
+            <button @click="deleteTask(index)" class="delete-task-btn">Delete</button>
+          </div>
         </li>
       </ul>
 
@@ -109,7 +116,7 @@
           if (!this.newTask.name) return; 
 
           if (this.editingIndex !== null){
-            this.tasks[this.editingIndex] = { ... this.newTask };
+            this.tasks.splice(this.editingIndex, 1, { ...this.newTask });
             this.editingIndex = null;
           } else {
             this.tasks.push({ ...this.newTask, completed: false });
@@ -179,32 +186,32 @@
         border-radius: 8px;
     }
     .app-container{
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: #f3f4f6;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: #f3f4f6;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     h1{
-    text-align: center;
-    color: black;
-    margin-bottom: 25px;
+      text-align: center;
+      color: black;
+      margin-bottom: 25px;
     }
     .controls{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
     }
     .add-task-btn, select{
-    padding: 10px 20px;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
     .task-filter { display: flex; gap: 8px; align-items: center;}
     .task-filter label { font-size: 1.4rem; text-transform: capitalize;}
@@ -213,41 +220,41 @@
     .controls select, 
     .task-form input, 
     .task-form select {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 2px solid #d1d5db;
-    cursor: pointer;
-    color: black
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 2px solid #d1d5db;
+      cursor: pointer;
+      color: black
     }
     .task-form input { cursor: text !important; }
     .modal-overlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.5)
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      background-color: rgba(0, 0, 0, 0.5)
     }
     .task-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 400px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
     }
     .task-form{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     .task-form label {
-    font-weight: bold;
-    color: #374151;
+      font-weight: bold;
+      color: #374151;
     }
     .task-form button{
     color: white;
@@ -273,8 +280,8 @@
     /*Form actions */
     .form-actions{display: flex; gap: 10px; justify-content: space-between;}
     /* Tasks Display List */
-    .task-display-list{
-      list-style: none;
+    .task-display-list{ list-style: none; padding: 0;}
+    .task-card{
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -295,6 +302,20 @@
       cursor: pointer;
       transition: 0.2s;
     }
+    /* Task List */
+    .task-info { display: flex; align-items: flex-start; gap: 15px; flex: 1; }
+    .text-content { display: flex; flex-direction: column; gap: 4px;}
+    .task-title { margin: 0; font-size: 1.1rem; color: #ffffff;}
+    .task-desc { margin: 0; font-size: 0.9rem; color: #b0b0b0;}
+    .high-border { border-left: 6px solid #ff4d4d;}
+    .medium-border { border-left: 6px solid #ffa500;}
+    .low-border { border-left: 6px solid #2ecc71;}
+    .is-completed { opacity: 0.6; }
+    .is-completed .task-title { text-decoration: line-through; color: #888;}
+    .task-metadata { display: flex; margin-top: 5px; gap: 10px; font-size: 0.75rem;}
+    .badge { background: #4a4a6a; padding: 2px 8px; border-radius: 12px; text-transform: uppercase;}
+    .due-date { color: #3b82f6;}
+    .task-actions { display: flex; gap: 8px;}
     .complete-checkbox { width: 18px; height: 18px; cursor: pointer; }
     .delete-task-btn { background: #ff4d4d; }
     .edit-task-btn { background: purple; }
