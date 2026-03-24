@@ -31,12 +31,12 @@
         <li v-for="(task, index) in tasks" :key="index" class="task-card">
           <h3>{{ task.name }}</h3>
           <p>{{ task.description }}</p>
+          <input type="checkbox" v-model="task.completed">
           <small>
             {{ task.category }} | {{ task.priority }} | {{ task.dueDate }}
           </small>
-          <input type="checkbox">
-          <button>Edit</button>
-          <button @click="deleteTask(index)">Delete</button>
+          <button @click="editTask(index)" class="edit-task-btn">Edit</button>
+          <button @click="deleteTask(index)" class="delete-task-btn">Delete</button>
         </li>
       </ul>
 
@@ -76,7 +76,7 @@
               
             <!-- Form Buttons -->
             <div class="form-actions">
-              <button type="submit" @click="addTask">add</button>
+              <button type="submit">{{ editingIndex !== null ? 'Update' : 'Add' }}</button>
               <button type="button" @click="showForm = false">cancel</button>
             </div>
           </form>
@@ -92,6 +92,7 @@
     data() {
       return { 
         showForm: false,
+        editingIndex: null,
         tasks: [],
         newTask: {
           name: '',
@@ -107,19 +108,30 @@
         addTask(){
           if (!this.newTask.name) return; 
 
-          this.tasks.push({
-            ...this.newTask,
-            status: 'active'
-          });
+          if (this.editingIndex !== null){
+            this.tasks[this.editingIndex] = { ... this.newTask };
+            this.editingIndex = null;
+          } else {
+            this.tasks.push({ ...this.newTask, completed: false });
+          }
 
+          this.resetForm();
+          this.showForm = false;
+        },
+        resetForm() {
           this.newTask = {
             name: '',
             description: '',
             category: 'work',
             priority: 'low',
-            datetime: ''
+            dueDate: '',
+            completed: false
           };
-          this.showForm = false;
+        },
+        editTask(index) {
+          this.editingIndex = index;
+          this.newTask = { ...this.tasks[index] };
+          this.showForm = true;
         },
         deleteTask(index) {
           this.tasks.splice(index, 1);
@@ -260,4 +272,31 @@
     .form-group{ display: flex; flex-direction: column; gap: 5px;}
     /*Form actions */
     .form-actions{display: flex; gap: 10px; justify-content: space-between;}
+    /* Tasks Display List */
+    .task-display-list{
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1e1e2f;
+      color: #fff;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      gap: 10px;
+      word-break: break-word;
+    }
+    .delete-task-btn, .edit-task-btn {
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .complete-checkbox { width: 18px; height: 18px; cursor: pointer; }
+    .delete-task-btn { background: #ff4d4d; }
+    .edit-task-btn { background: purple; }
+    .delete-task-btn:hover { background: #e60000;}
 </style>
