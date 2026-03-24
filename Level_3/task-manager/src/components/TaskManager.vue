@@ -26,21 +26,35 @@
         </div>
       </div>
 
+      <!-- Task Display -->
+      <ul v-if="tasks.length" class="task-display-list">
+        <li v-for="(task, index) in tasks" :key="index" class="task-card">
+          <h3>{{ task.name }}</h3>
+          <p>{{ task.description }}</p>
+          <small>
+            {{ task.category }} | {{ task.priority }} | {{ task.dueDate }}
+          </small>
+          <input type="checkbox">
+          <button>Edit</button>
+          <button @click="deleteTask(index)">Delete</button>
+        </li>
+      </ul>
+
       <!-- Task Form -->
       <div class="modal-overlay" v-if="showForm">
         <div class="task-container">
-          <form class="task-form" @submit.prevent>
+          <form class="task-form" @submit.prevent="addTask">
             <!-- Task Name -->
             <label for="task-name">task name</label>
-            <input id="task-name" name="task-name" placeholder="what needs to be done ?"/>
+            <input id="task-name" name="task-name" v-model="newTask.name" placeholder="what needs to be done ?"/>
 
             <!-- Task Description -->
              <label for="task-description">description</label>
-             <textarea name="text-description" id="text-description" placeholder="details of the task..." rows="4"></textarea>
+             <textarea name="text-description" id="text-description" v-model="newTask.description" placeholder="details of the task..." rows="4"></textarea>
 
             <!-- Task Category -->
             <label for="task-category">category: </label>
-            <select name="task-category" id="task-category">
+            <select name="task-category" id="task-category" v-model="newTask.category">
               <option value="work">work</option>
               <option value="school">school</option>
               <option value="personal">personal</option>
@@ -48,7 +62,7 @@
 
             <!-- Task Priority -->
             <label for="task-priority">priority: </label>
-            <select id="task-priority">
+            <select id="task-priority" v-model="newTask.priority">
               <option value="low">low</option>
               <option value="medium">medium</option>
               <option value="high">high</option>
@@ -57,12 +71,12 @@
             <!-- Task Due Date -->
             <div class="form-group">
               <label for="task-datetime">Due Date & Time</label>
-              <input type="datetime-local" id="task-datetime"/>
+              <input type="datetime-local" id="task-datetime" v-model="newTask.dueDate"/>
             </div>
               
             <!-- Form Buttons -->
             <div class="form-actions">
-              <button type="submit">add</button>
+              <button type="submit" @click="addTask">add</button>
               <button type="button" @click="showForm = false">cancel</button>
             </div>
           </form>
@@ -76,11 +90,39 @@
   export default {
     name: 'TaskManager',
     data() {
-      return { showForm: false}
+      return { 
+        showForm: false,
+        tasks: [],
+        newTask: {
+          name: '',
+          description: '',
+          category: 'work',
+          priority: 'medium',
+          dueDate: '',
+          completed: false
+        }
+      }
     },
     methods: {
         logout(){
             this.$router.push('/')
+        },
+        addTask(){
+          if (!this.newTask.name) return; 
+
+          this.tasks.push({
+            ...this.newTask,
+            status: 'active'
+          });
+
+          this.newTask = {
+            name: '',
+            description: '',
+            category: 'work',
+            priority: 'low',
+            datetime: ''
+          };
+          this.showForm = false;
         }
     }
   }
