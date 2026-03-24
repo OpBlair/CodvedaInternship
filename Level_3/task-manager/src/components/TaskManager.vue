@@ -104,9 +104,6 @@
       }
     },
     methods: {
-        logout(){
-            this.$router.push('/')
-        },
         addTask(){
           if (!this.newTask.name) return; 
 
@@ -123,6 +120,12 @@
             datetime: ''
           };
           this.showForm = false;
+        },
+        deleteTask(index) {
+          this.tasks.splice(index, 1);
+        },
+        logout(){
+            this.$router.push('/')
         }
     }
   }
