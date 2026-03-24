@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="task-actions">
-            <button @click="editTask(index)" class="edit-task-btn">Edit</button>
+            <button @click="editTask(index)" class="edit-task-btn" :disabled="task.completed" :class="{ 'btn-disabled': task.completed }">Edit</button>
             <button @click="deleteTask(index)" class="delete-task-btn">Delete</button>
           </div>
         </li>
@@ -319,5 +319,6 @@
     .complete-checkbox { width: 18px; height: 18px; cursor: pointer; }
     .delete-task-btn { background: #ff4d4d; }
     .edit-task-btn { background: purple; }
+    .btn-disabled { background-color: #4b5563; cursor: not-allowed; opacity: 0.5;}
     .delete-task-btn:hover { background: #e60000;}
 </style>
