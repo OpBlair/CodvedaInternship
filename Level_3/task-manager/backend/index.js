@@ -2,29 +2,39 @@
 
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config(); 
+require('dotenv').config();
+
+// Importing functions in taskModel.js
+const taskModel = require('./models/taskModel.js');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.port || 3000; 
 
-// 1. Global Middleware
-app.use(cors()); 
-app.use(express.json()); 
+app.use(cors());
+app.use(express.json());
 
-// 2. Import Routes
-const taskRoutes = require('./routes/taskRoutes');
-const authRoutes = require('./routes/authRoutes');
-
-// 3. Mount Routes
-app.use('/api/tasks', taskRoutes);
-app.use('/api/auth', authRoutes);
-
-// 4. Basic Health Check
-app.get('/', (req, res) => {
-    res.send('Task Manager API is running...');
+// --- Routes ---- 
+// 1.Fetch Tasks
+app.get('/api/tasks', async(req, res) => {
+    try{
+        const tasks = await taskModel.getTasks();
+        res.json(tasks);
+    }catch (err){
+        res.status(500).json({error: err.message});
+    }
 });
 
-// 5. Start Server
-app.listen(PORT, () => {
-    console.log(`Server is sprinting on http://localhost:${PORT}`);
+// 2. Create a task
+app.post('/api/tasks', async(req, res) => {
+    try{
+        const newTask = await taskModel.createTask(req.body);
+        res.status(201).json(newTask);
+    }catch (err){
+        res.status(500).json({error: err.message});
+    }
 });
+
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+})
+
