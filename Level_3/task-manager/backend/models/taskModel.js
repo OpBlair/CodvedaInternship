@@ -53,6 +53,17 @@ const updateTask = async (taskId, taskData) => {
     return result.rows[0];
 }
 
+// Function to Update task status
+const updateTaskStaus = async (taskId, newStatus) => {
+    const sql = `
+        UPDATE tasks
+        SET status = $1
+        WHERE task_id = $2
+        RETURNING *`;
+    const result = await pool.query(sql, [newStatus, taskId]);
+    return result.rows[0];
+}
+
 // Function to cancel a Task
 const cancelTask = async (taskId) => {
     const sql = `
@@ -64,4 +75,4 @@ const cancelTask = async (taskId) => {
     return result.rows[0];
 }
 
-export default { getTasks, createTask, cancelTask, updateTask }; // Export function so that other functions can use
+export default { getTasks, createTask, cancelTask, updateTask, updateTaskStaus }; // Export function so that other functions can use
