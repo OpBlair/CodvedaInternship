@@ -31,7 +31,7 @@
         <template v-for="task in tasks">
           <li :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }]" v-if="task.status !== 'cancelled'">
             <div class="task-info">
-              <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)">
+              <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)" class="complete-checkbox">
               <div class="task-content">
                 <h3 class="task-title">{{ task.title }}</h3>
                 <p class="task-desc">{{ task.description }}</p>
@@ -43,7 +43,7 @@
             </div>
             <div class="task-actions">
               <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Edit</button>
-              <button @click="cancelTask(task.task_id)" class="delete-task-btn">Cancel</button>
+              <button @click="cancelTask(task.task_id)" class="delete-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Cancel</button>
             </div>
           </li>
         </template>
@@ -192,7 +192,7 @@
           const newStatus = task.status === 'active' ? 'completed' : 'active';
 
           try{
-            const response = await fetch(`http://localhost:3000/api/tasks/${task.task_id}`, {
+            const response = await fetch(`http://localhost:3000/api/tasks/${task.task_id}/status`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ status: newStatus })
@@ -200,7 +200,8 @@
 
             if(response.ok){
               await this.fetchTasks();
-            }
+            }else{
+              console.error("Failed to update the status on server");            }
           }catch (error){
             console.error("Error updating status:", error);
           }
@@ -379,6 +380,7 @@
     .due-date { color: #3b82f6;}
     .task-actions { display: flex; gap: 8px;}
     .complete-checkbox { width: 18px; height: 18px; cursor: pointer; }
+    .is-completed .task-title { text-decoration: line-through; color: #888; }
     .delete-task-btn { background: #ff4d4d; }
     .edit-task-btn { background: purple; }
     .btn-disabled { background-color: #4b5563; cursor: not-allowed; opacity: 0.5;}

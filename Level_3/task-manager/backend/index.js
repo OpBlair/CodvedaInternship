@@ -61,7 +61,24 @@ app.patch('/api/tasks/:id/cancel', async (req, res) => {
         if(!updatedTask){
             return res.status(404).json({error: "Task not found"});
         }
-        res.status(200).json(task);
+        res.status(200).json(updatedTask);
+    } catch (err){
+        console.error("Cancel Error:", err);
+        res.status(500).json({error: err.message});
+    }
+});
+
+// Mark a task as complete
+app.patch('/api/tasks/:id/status', async (req, res) => {
+    try{
+        const { id } = req.params;
+        const { status } = req.body;
+        const updatedTask = await taskModel.updateTaskStatus(id, status);
+
+        if(!updatedTask){
+            return res.status(404).json({error: "Task not found"});
+        }
+        res.status(200).json(updatedTask);
     } catch (err){
         console.error("Cancel Error:", err);
         res.status(500).json({error: err.message});

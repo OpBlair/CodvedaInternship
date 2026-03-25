@@ -54,7 +54,7 @@ const updateTask = async (taskId, taskData) => {
 }
 
 // Function to Update task status
-const updateTaskStaus = async (taskId, newStatus) => {
+const updateTaskStatus = async (taskId, newStatus) => {
     const sql = `
         UPDATE tasks
         SET status = $1
@@ -75,4 +75,4 @@ const cancelTask = async (taskId) => {
     return result.rows[0];
 }
 
-export default { getTasks, createTask, cancelTask, updateTask, updateTaskStaus }; // Export function so that other functions can use
+export default { getTasks, createTask, cancelTask, updateTask, updateTaskStatus }; // Export function so that other functions can use
