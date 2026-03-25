@@ -7,19 +7,13 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
------- CATEGORY TABLE -------
-CREATE TABLE categories (
-    category_id SERIAL PRIMARY KEY,
-    category_name VARCHAR(20) NOT NULL CHECK (category_name IN ('work', 'school', 'personal')) DEFAULT 'personal'
-);
-
 ----- TASK TABLE -------
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-    category_id INT REFERENCES categories(category_id) ON DELETE SET NULL,
+    -- user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     title VARCHAR(50) NOT NULL,
     description TEXT,
+    category VARCHAR(15) CHECK (category IN ('work', 'school', 'personal')) DEFAULT 'personal',
     status VARCHAR(10) CHECK (status IN ('active', 'completed', 'cancelled')) DEFAULT 'active',
     priority VARCHAR(10) CHECK (priority IN ('low', 'medium', 'high')) DEFAULT 'medium',
     due_date DATE,
