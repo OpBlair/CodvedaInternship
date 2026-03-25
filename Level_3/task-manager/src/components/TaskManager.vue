@@ -28,9 +28,9 @@
 
       <!-- Task Display -->
       <ul v-if="tasks.length" class="task-display-list">
-        <li v-for="task in tasks" :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }]">
+        <li v-for="task in tasks" :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }, {'is-cancelled' : task.status === 'cancelled'}]">
           <div class="task-info">
-            <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)" class="complete-checkbox" :class="{ 'btn-disabled': task.status === 'completed' }">
+            <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)" class="complete-checkbox" :class="{ 'btn-disabled': task.status === 'cancelled' }" :disabled="task.status === 'cancelled' || task.status === 'completed'">
             <div class="task-content">
               <h3 class="task-title">{{ task.title }}</h3>
               <p class="task-desc">{{ task.description }}</p>
@@ -41,12 +41,12 @@
             </div>
           </div>
           <div class="task-actions">
-            <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Edit</button>
-            <button @click="cancelTask(task.task_id)" class="delete-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Cancel</button>
+            <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status !== 'active' }">Edit</button>
+            <button @click="cancelTask(task.task_id)" class="delete-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status !== 'active' }">Cancel</button>
           </div>
         </li>
       </ul>
-      
+
       <!-- Task Form -->
       <div class="modal-overlay" v-if="showForm">
         <div class="task-container">
@@ -384,6 +384,8 @@
     .low-border { border-left: 6px solid #2ecc71;}
     .is-completed { opacity: 0.6; }
     .is-completed .task-title { text-decoration: line-through; color: #888;}
+    .is-cancelled { opacity: 0.4; background-color: #1a1a2e; border-left: 6px solid #6b7280 !important;}
+    .is-cancelled .task-title { color: #6b7280; font-style: italic;}
     .task-metadata { display: flex; margin-top: 5px; gap: 10px; font-size: 0.75rem;}
     .badge { background: #4a4a6a; padding: 2px 8px; border-radius: 12px; text-transform: uppercase;}
     .due-date { color: #3b82f6;}
@@ -392,6 +394,6 @@
     .is-completed .task-title { text-decoration: line-through; color: #888; }
     .delete-task-btn { background: #ff4d4d; }
     .edit-task-btn { background: purple; }
-    .btn-disabled { background-color: #4b5563; cursor: not-allowed; opacity: 0.5;}
+    .btn-disabled { background-color: #4b5563; cursor: not-allowed; opacity: 0.5; pointer-events: none;}
     .delete-task-btn:hover { background: #e60000;}
 </style>
