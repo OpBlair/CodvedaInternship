@@ -10,7 +10,7 @@ CREATE TABLE users (
 ----- TASK TABLE -------
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
-    -- user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     title VARCHAR(50) NOT NULL,
     description TEXT,
     category VARCHAR(15) CHECK (category IN ('work', 'school', 'personal')) DEFAULT 'personal',

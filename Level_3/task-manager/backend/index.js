@@ -1,11 +1,11 @@
 // Logic to Start the server and link to the database
+import 'dotenv/config';
+import express from 'express';
 
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+import cors from 'cors';
 
 // Importing functions in taskModel.js
-const taskModel = require('./models/taskModel.js');
+import taskModel from './models/taskModel.js';
 
 const app = express();
 const port = process.env.port || 3000; 
@@ -37,4 +37,3 @@ app.post('/api/tasks', async(req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 })
-

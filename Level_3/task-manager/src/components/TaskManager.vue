@@ -32,11 +32,11 @@
           <div class="task-info">
             <input type="checkbox" v-model="task.completed">
             <div class="task-content">
-              <h3 class="task-title">{{ task.name }}</h3>
+              <h3 class="task-title">{{ task.title }}</h3>
               <p class="task-desc">{{ task.description }}</p>
               <div class="task-metadata">
                 <span class="badge">{{ task.category }}</span>
-                <span class="due-date">{{ task.dueDate.replace('T', '') }}</span>               
+                <span class="due-date">{{ task.due_date ? task.due_date.replace('T', ' ').slice(0,16) : 'No date set'}}</span>               
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
           <form class="task-form" @submit.prevent="addTask">
             <!-- Task Name -->
             <label for="task-name">task name</label>
-            <input id="task-name" name="task-name" v-model="newTask.name" placeholder="what needs to be done ?"/>
+            <input id="task-name" name="task-name" v-model="newTask.title" placeholder="what needs to be done ?"/>
 
             <!-- Task Description -->
              <label for="task-description">description</label>
@@ -78,7 +78,7 @@
             <!-- Task Due Date -->
             <div class="form-group">
               <label for="task-datetime">Due Date & Time</label>
-              <input type="datetime-local" id="task-datetime" v-model="newTask.dueDate"/>
+              <input type="datetime-local" id="task-datetime" v-model="newTask.due_date"/>
             </div>
               
             <!-- Form Buttons -->
@@ -102,36 +102,54 @@
         editingIndex: null,
         tasks: [],
         newTask: {
-          name: '',
+          title: '',
           description: '',
           category: 'work',
           priority: 'medium',
-          dueDate: '',
+          due_date: '',
           completed: false
         }
       }
     },
+    // Automatich function to fetch tasks when the page opens
+    async created() {
+      this.fetchTasks();
+    },
     methods: {
-        addTask(){
-          if (!this.newTask.name) return; 
+      async fetchTasks() {
+        try{
+          const response = await fetch('http://localhost:3000/api/tasks');
+          this.tasks = await response.json();
+        }catch (error){
+          console.error("Could not load Tasks:", error);
+        }
+      },
+      async addTask(){
+        if (!this.newTask.title) return; 
 
-          if (this.editingIndex !== null){
-            this.tasks.splice(this.editingIndex, 1, { ...this.newTask });
-            this.editingIndex = null;
-          } else {
-            this.tasks.push({ ...this.newTask, completed: false });
+        try {
+          const response = await fetch('http://localhost:3000/api/tasks', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.newTask)
+          });
+
+          if (response.ok){
+            await this.fetchTasks();
+            this.resetForm();
+            this.showForm = false;
           }
-
-          this.resetForm();
-          this.showForm = false;
-        },
+        } catch(error) {
+          console.error("Error saving task: ", error);
+        }
+      },
         resetForm() {
           this.newTask = {
-            name: '',
+            title: '',
             description: '',
             category: 'work',
             priority: 'low',
-            dueDate: '',
+            due_date: '',
             completed: false
           };
         },
