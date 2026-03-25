@@ -34,6 +34,40 @@ app.post('/api/tasks', async(req, res) => {
     }
 });
 
+// Edit a Task
+app.put('/api/tasks/:id', async (req, res) => {
+    try{
+        const { id } = req.params;
+        const taskData = req.body;
+
+        const updateTask = await taskModel.updateTask(id, taskData);
+
+        if(!updateTask){
+            return res.status(404).json({error: "Task not found"});
+        }
+        res.json(updateTask);
+    }catch(error){
+        console.error("Error updating task:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// Cancel a Task
+app.patch('/api/tasks/:id/cancel', async (req, res) => {
+    try{
+        const { id } = req.params;
+        const updatedTask = await taskModel.cancelTask(id);
+
+        if(!updatedTask){
+            return res.status(404).json({error: "Task not found"});
+        }
+        res.status(200).json(task);
+    } catch (err){
+        console.error("Cancel Error:", err);
+        res.status(500).json({error: err.message});
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 })
