@@ -28,23 +28,25 @@
 
       <!-- Task Display -->
       <ul v-if="tasks.length" class="task-display-list">
-        <li v-for="(task, index) in tasks" :key="index" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.completed }]">
-          <div class="task-info">
-            <input type="checkbox" v-model="task.completed">
-            <div class="task-content">
-              <h3 class="task-title">{{ task.title }}</h3>
-              <p class="task-desc">{{ task.description }}</p>
-              <div class="task-metadata">
-                <span class="badge">{{ task.category }}</span>
-                <span class="due-date">{{ task.due_date ? task.due_date.replace('T', ' ').slice(0,16) : 'No date set'}}</span>               
+        <template v-for="task in tasks">
+          <li :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }]" v-if="task.status !== 'cancelled'">
+            <div class="task-info">
+              <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)">
+              <div class="task-content">
+                <h3 class="task-title">{{ task.title }}</h3>
+                <p class="task-desc">{{ task.description }}</p>
+                <div class="task-metadata">
+                  <span class="badge">{{ task.category }}</span>
+                  <span class="due-date">{{ task.due_date ? task.due_date.replace('T', ' ').slice(0,16) : 'No date set'}}</span>               
+                </div>
               </div>
             </div>
-          </div>
-          <div class="task-actions">
-            <button @click="editTask(index)" class="edit-task-btn" :disabled="task.completed" :class="{ 'btn-disabled': task.completed }">Edit</button>
-            <button @click="deleteTask(index)" class="delete-task-btn">Delete</button>
-          </div>
-        </li>
+            <div class="task-actions">
+              <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Edit</button>
+              <button @click="cancelTask(task.task_id)" class="delete-task-btn">Cancel</button>
+            </div>
+          </li>
+        </template>
       </ul>
 
       <!-- Task Form -->
@@ -107,7 +109,7 @@
           category: 'work',
           priority: 'medium',
           due_date: '',
-          completed: false
+          status: 'active'
         }
       }
     },
@@ -127,9 +129,12 @@
       async addTask(){
         if (!this.newTask.title) return; 
 
+        const isEditing = this.editingIndex !== null;
+        const url = isEditing ? `http://localhost:3000/api/tasks/${this.editingIndex}` : 'http://localhost:3000/api/tasks';
+        const method = isEditing ? 'PUT' : 'POST';
         try {
-          const response = await fetch('http://localhost:3000/api/tasks', {
-            method: 'POST',
+          const response = await fetch(url, {
+            method: method,
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.newTask)
           });
@@ -144,22 +149,61 @@
         }
       },
         resetForm() {
+          this.editingIndex = null;
           this.newTask = {
             title: '',
             description: '',
             category: 'work',
             priority: 'low',
             due_date: '',
-            completed: false
+            status: 'active'
           };
         },
-        editTask(index) {
-          this.editingIndex = index;
-          this.newTask = { ...this.tasks[index] };
-          this.showForm = true;
+        editTask(task_id) {
+          const taskToEdit = this.tasks.find(t => t.task_id === task_id);
+
+          if(taskToEdit){
+            this.editingIndex = task_id;
+
+            let formattedDate = '';
+            if(taskToEdit.due_date){
+              formattedDate = taskToEdit.due_date.slice(0, 16);
+            }
+            this.newTask = { ...taskToEdit, due_date: formattedDate };
+            this.showForm = true;
+          }
         },
-        deleteTask(index) {
-          this.tasks.splice(index, 1);
+        async cancelTask(taskId){
+          try{
+            // tell db to cancel task with a specific id
+            const response = await fetch(`http://localhost:3000/api/tasks/${taskId}/cancel`, {
+              method: 'PATCH'
+            });
+
+            if (response.ok){
+              // after updating db fetch tasks.
+              await this.fetchTasks();
+            }
+          }catch(error){
+            console.error("Couldn't cancel that task:", error);
+          }
+        },
+        async toggleStatus(task) {
+          const newStatus = task.status === 'active' ? 'completed' : 'active';
+
+          try{
+            const response = await fetch(`http://localhost:3000/api/tasks/${task.task_id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: newStatus })
+            });
+
+            if(response.ok){
+              await this.fetchTasks();
+            }
+          }catch (error){
+            console.error("Error updating status:", error);
+          }
         },
         logout(){
             this.$router.push('/')
