@@ -85,6 +85,18 @@ app.patch('/api/tasks/:id/status', async (req, res) => {
     }
 });
 
+// Filter tasks
+app.get('/api/tasks/filter/:status', async (req, res) => {
+    try{
+        const { status } = req.params; // getting status from URL
+        const filteredTask = await taskModel.getTaskByStatus(status); // passing it to a function.
+        res.json(filteredTask); // sending the list to Vue.
+    } catch(error){
+        console.error("Filtering error:", error);
+        res.status(500).json({error: "Couldn't Filter tasks"});
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 })

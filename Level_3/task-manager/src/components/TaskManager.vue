@@ -17,7 +17,7 @@
         <button class="add-task-btn" @click="showForm = true">+ add task</button>
         <div class="task-filter">
           <label for="task-filter">filter: </label>
-          <select>
+          <select v-model="filterStatus" @change="applyFilter(filterStatus)">
             <option value="all">all</option>
             <option value="active">active</option>
             <option value="completed">completed</option>
@@ -28,27 +28,25 @@
 
       <!-- Task Display -->
       <ul v-if="tasks.length" class="task-display-list">
-        <template v-for="task in tasks">
-          <li :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }]" v-if="task.status !== 'cancelled'">
-            <div class="task-info">
-              <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)" class="complete-checkbox">
-              <div class="task-content">
-                <h3 class="task-title">{{ task.title }}</h3>
-                <p class="task-desc">{{ task.description }}</p>
-                <div class="task-metadata">
-                  <span class="badge">{{ task.category }}</span>
-                  <span class="due-date">{{ task.due_date ? task.due_date.replace('T', ' ').slice(0,16) : 'No date set'}}</span>               
-                </div>
-              </div>
+        <li v-for="task in tasks" :key="task.task_id" class="task-card" :class="[task.priority + '-border', { 'is-completed': task.status === 'completed' }]">
+          <div class="task-info">
+            <input type="checkbox" :checked="task.status === 'completed'" @click="toggleStatus(task)" class="complete-checkbox" :class="{ 'btn-disabled': task.status === 'completed' }">
+            <div class="task-content">
+              <h3 class="task-title">{{ task.title }}</h3>
+              <p class="task-desc">{{ task.description }}</p>
+              <div class="task-metadata">
+                <span class="badge">{{ task.category }}</span>
+                <span class="due-date">{{ task.due_date ? task.due_date.replace('T', ' ').slice(0,16) : 'No date set'}}</span>               
+               </div>
             </div>
-            <div class="task-actions">
-              <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Edit</button>
-              <button @click="cancelTask(task.task_id)" class="delete-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Cancel</button>
-            </div>
-          </li>
-        </template>
+          </div>
+          <div class="task-actions">
+            <button @click="editTask(task.task_id)" class="edit-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Edit</button>
+            <button @click="cancelTask(task.task_id)" class="delete-task-btn" :disabled="task.status === 'completed'" :class="{ 'btn-disabled': task.status === 'completed' }">Cancel</button>
+          </div>
+        </li>
       </ul>
-
+      
       <!-- Task Form -->
       <div class="modal-overlay" v-if="showForm">
         <div class="task-container">
@@ -102,6 +100,7 @@
       return { 
         showForm: false,
         editingIndex: null,
+        filterStatus: 'all',
         tasks: [],
         newTask: {
           title: '',
@@ -204,6 +203,16 @@
               console.error("Failed to update the status on server");            }
           }catch (error){
             console.error("Error updating status:", error);
+          }
+        },
+        
+        async applyFilter(status){
+          try{
+            const response = await fetch(`http://localhost:3000/api/tasks/filter/${status}`);
+            
+            if(response.ok){ this.tasks = await response.json(); }
+          } catch(error){
+            console.error("Error Filtering tasks:", error);
           }
         },
         logout(){

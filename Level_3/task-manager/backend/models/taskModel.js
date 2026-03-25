@@ -75,4 +75,15 @@ const cancelTask = async (taskId) => {
     return result.rows[0];
 }
 
-export default { getTasks, createTask, cancelTask, updateTask, updateTaskStatus }; // Export function so that other functions can use
+// Function to filter Tasks
+const getTaskByStatus = async (status) => {
+    
+    if (status === 'all'){ return await getTasks(); } 
+
+    const sql = `SELECT * FROM tasks WHERE status = $1 ORDER BY created_at DESC`;
+    const result = await pool.query(sql, [status]);
+    return result.rows;
+    
+}
+
+export default { getTasks, createTask, cancelTask, updateTask, updateTaskStatus, getTaskByStatus }; // Export function so that other functions can use
