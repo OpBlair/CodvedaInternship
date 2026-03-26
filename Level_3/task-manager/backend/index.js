@@ -1,8 +1,9 @@
 // Logic to Start the server and link to the database
 import 'dotenv/config';
 import express from 'express';
-
 import cors from 'cors';
+import authMiddleware from './middleware/authMiddleware.js'; // importing functions in authMiddleware.js
+import authController from './controllers/authController.js';  // importing functions in authController.js
 
 // Importing functions in taskModel.js
 import taskModel from './models/taskModel.js';
@@ -14,10 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 // --- Routes ---- 
+// --- Auth Routes ---
+app.post('/api/auth/register', authController.register);
+app.post('/api/auth/login', authController.login);
+
 // 1.Fetch Tasks
-app.get('/api/tasks', async(req, res) => {
+app.get('/api/tasks', authMiddleware, async(req, res) => {
     try{
-        const tasks = await taskModel.getTasks();
+        const tasks = await taskModel.getTasks(req.user.user_id);
         res.json(tasks);
     }catch (err){
         res.status(500).json({error: err.message});
@@ -25,9 +30,9 @@ app.get('/api/tasks', async(req, res) => {
 });
 
 // 2. Create a task
-app.post('/api/tasks', async(req, res) => {
+app.post('/api/tasks',  authMiddleware, async(req, res) => {
     try{
-        const newTask = await taskModel.createTask(req.body);
+        const newTask = await taskModel.createTask(req.body, req.user.user_id);
         res.status(201).json(newTask);
     }catch (err){
         res.status(500).json({error: err.message});
@@ -35,12 +40,10 @@ app.post('/api/tasks', async(req, res) => {
 });
 
 // Edit a Task
-app.put('/api/tasks/:id', async (req, res) => {
+app.put('/api/tasks/:id', authMiddleware, async (req, res) => {
     try{
-        const { id } = req.params;
-        const taskData = req.body;
-
-        const updateTask = await taskModel.updateTask(id, taskData);
+    
+        const updateTask = await taskModel.updateTask(req.params.id, req.body, req.user.user_id);
 
         if(!updateTask){
             return res.status(404).json({error: "Task not found"});
@@ -53,10 +56,10 @@ app.put('/api/tasks/:id', async (req, res) => {
 });
 
 // Cancel a Task
-app.patch('/api/tasks/:id/cancel', async (req, res) => {
+app.patch('/api/tasks/:id/cancel', authMiddleware, async (req, res) => {
     try{
         const { id } = req.params;
-        const updatedTask = await taskModel.cancelTask(id);
+        const updatedTask = await taskModel.cancelTask(id, req.user.user_id);
 
         if(!updatedTask){
             return res.status(404).json({error: "Task not found"});
@@ -69,11 +72,11 @@ app.patch('/api/tasks/:id/cancel', async (req, res) => {
 });
 
 // Mark a task as complete
-app.patch('/api/tasks/:id/status', async (req, res) => {
+app.patch('/api/tasks/:id/status', authMiddleware, async (req, res) => {
     try{
         const { id } = req.params;
         const { status } = req.body;
-        const updatedTask = await taskModel.updateTaskStatus(id, status);
+        const updatedTask = await taskModel.updateTaskStatus(id, status, req.user.user_id);
 
         if(!updatedTask){
             return res.status(404).json({error: "Task not found"});
@@ -86,10 +89,10 @@ app.patch('/api/tasks/:id/status', async (req, res) => {
 });
 
 // Filter tasks
-app.get('/api/tasks/filter/:status', async (req, res) => {
+app.get('/api/tasks/filter/:status', authMiddleware, async (req, res) => {
     try{
         const { status } = req.params; // getting status from URL
-        const filteredTask = await taskModel.getTaskByStatus(status); // passing it to a function.
+        const filteredTask = await taskModel.getTaskByStatus(status, req.user.user_id); // passing it to a function.
         res.json(filteredTask); // sending the list to Vue.
     } catch(error){
         console.error("Filtering error:", error);
