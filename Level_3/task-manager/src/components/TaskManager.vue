@@ -3,8 +3,8 @@
     <!-- header -->
     <header class="app-header">
         <div class="user-info">
-            <div class="user-initial">T</div>
-            <span class="user-name">Tonny</span>
+            <div class="user-initial">{{ userName.charAt(0).toUpperCase() }}</div>
+            <span class="user-name">{{  userName }}</span>
         </div>
         <button @click="logout" class="logout-btn">logout</button>
     </header>
@@ -101,6 +101,7 @@
         showForm: false,
         editingIndex: null,
         filterStatus: 'all',
+        userName: localStorage.getItem('user_name') || 'User',
         tasks: [],
         newTask: {
           title: '',
@@ -117,9 +118,16 @@
       this.fetchTasks();
     },
     methods: {
+      getAuthHeader() {
+        return {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        };
+      },
+
       async fetchTasks() {
         try{
-          const response = await fetch('http://localhost:3000/api/tasks');
+          const response = await fetch('http://localhost:3000/api/tasks', {headers: this.getAuthHeader()});
           this.tasks = await response.json();
         }catch (error){
           console.error("Could not load Tasks:", error);
@@ -134,7 +142,7 @@
         try {
           const response = await fetch(url, {
             method: method,
-            headers: {'Content-Type': 'application/json'},
+            headers: this.getAuthHeader(),
             body: JSON.stringify(this.newTask)
           });
 
@@ -176,7 +184,7 @@
           try{
             // tell db to cancel task with a specific id
             const response = await fetch(`http://localhost:3000/api/tasks/${taskId}/cancel`, {
-              method: 'PATCH'
+              method: 'PATCH', headers: this.getAuthHeader()
             });
 
             if (response.ok){
@@ -193,7 +201,7 @@
           try{
             const response = await fetch(`http://localhost:3000/api/tasks/${task.task_id}/status`, {
               method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
+              headers: this.getAuthHeader(),
               body: JSON.stringify({ status: newStatus })
             });
 
@@ -208,7 +216,7 @@
         
         async applyFilter(status){
           try{
-            const response = await fetch(`http://localhost:3000/api/tasks/filter/${status}`);
+            const response = await fetch(`http://localhost:3000/api/tasks/filter/${status}`, {headers: this.getAuthHeader()});
             
             if(response.ok){ this.tasks = await response.json(); }
           } catch(error){
@@ -216,7 +224,9 @@
           }
         },
         logout(){
-            this.$router.push('/')
+          localStorage.removeItem('token');
+          localStorage.removeItem('user_name');
+          this.$router.push('/')
         }
     }
   }
@@ -376,7 +386,7 @@
     }
     /* Task List */
     .task-info { display: flex; align-items: flex-start; gap: 15px; flex: 1; }
-    .text-content { display: flex; flex-direction: column; gap: 4px;}
+    .task-content { display: flex; flex-direction: column; gap: 4px;}
     .task-title { margin: 0; font-size: 1.1rem; color: #ffffff;}
     .task-desc { margin: 0; font-size: 0.9rem; color: #b0b0b0;}
     .high-border { border-left: 6px solid #ff4d4d;}

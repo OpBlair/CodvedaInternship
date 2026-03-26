@@ -11,9 +11,11 @@ const authMiddleware = (req, res, next) => {
     try{
         const verified = jwt.verify(token, process.env.jwt_passkey); // verify token using passkey
 
-        res.user = verified;
+        req.user = verified;
         next(); // move to controller
     }catch(error){
         res.status(403).json({error: "Invalid or expired token."});
     }
 }
+
+export default authMiddleware;

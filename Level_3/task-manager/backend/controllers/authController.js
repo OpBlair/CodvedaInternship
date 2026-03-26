@@ -1,4 +1,4 @@
-import userModel from '../models/userModel';
+import userModel from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -37,3 +37,4 @@ const authController = {
     }
 }
 
+export default authController;
