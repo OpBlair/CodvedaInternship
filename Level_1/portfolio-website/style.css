@@ -140,6 +140,7 @@ p { margin-bottom: 20px; max-width: 70ch; text-align: justify;}
     justify-content: space-between;
     min-height: 200px;
 }
+.project-card p{ text-align: left !important;}
 .project-card:hover {
     border-color: var(--primary-blue);
     transform: translateY(-5px);
