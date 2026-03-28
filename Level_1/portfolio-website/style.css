@@ -228,12 +228,7 @@ textarea { min-height: 120px; resize: none;}
 }
 
 /* Quotes Section */
-.hero-wrapper {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr; /* Text takes more space than the quote */
-    gap: 40px;
-    align-items: center;
-}
+.hero-wrapper { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
 
 .quote-card{
     background: var(--card-bg);
@@ -261,10 +256,7 @@ textarea { min-height: 120px; resize: none;}
     line-height: 1;
     font-family: Georgia, serif;
 }
-.quote-card:hover{
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 25px var(--accent-glow);
-}
+.quote-card:hover{ border-color: var(--primary-blue); box-shadow: 0 0 25px var(--accent-glow); }
 .quote-text{
     font-size: 1.1rem;
     font-style: italic;
@@ -280,10 +272,7 @@ textarea { min-height: 120px; resize: none;}
     font-size: 0.9rem;
     letter-spacing: 0.5px;
 }
-#quoteText, #quoteAuthor{
-    opacity: 1;
-    transition: opacity 0.8s ease-in-out;
-}
+#quoteText, #quoteAuthor{ opacity: 1; transition: opacity 0.8s ease-in-out; }
 /* Footer */
 footer{
     text-align: center;
