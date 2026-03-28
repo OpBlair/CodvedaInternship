@@ -170,9 +170,7 @@ input:focus, textarea:focus{
     border-color: transparent;
     box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
 }
-form button {
-    border: none;
-}
+form button { border: none; }
 form button:hover { cursor: pointer;}
 textarea { min-height: 120px; resize: none;}
 
