@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const BASE_URL = import.meta.env.VITE_API_URL || '${BASE_URL}';
 <template>
   <div class="app-container">
     <!-- header -->
@@ -128,7 +128,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
       async fetchTasks() {
         try{
-          const response = await fetch('http://localhost:3000/api/tasks', {headers: this.getAuthHeader()});
+          const response = await fetch(`${BASE_URL}/api/tasks`, {headers: this.getAuthHeader()});
           this.tasks = await response.json();
         }catch (error){
           console.error("Could not load Tasks:", error);
@@ -138,7 +138,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
         if (!this.newTask.title) return; 
 
         const isEditing = this.editingIndex !== null;
-        const url = isEditing ? `http://localhost:3000/api/tasks/${this.editingIndex}` : 'http://localhost:3000/api/tasks';
+        const url = isEditing ? `${BASE_URL}/api/tasks/${this.editingIndex}` : `${BASE_URL}/api/tasks`;
         const method = isEditing ? 'PUT' : 'POST';
         try {
           const response = await fetch(url, {
@@ -184,7 +184,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
         async cancelTask(taskId){
           try{
             // tell db to cancel task with a specific id
-            const response = await fetch(`http://localhost:3000/api/tasks/${taskId}/cancel`, {
+            const response = await fetch(`${BASE_URL}/api/tasks/${taskId}/cancel`, {
               method: 'PATCH', headers: this.getAuthHeader()
             });
 
@@ -200,7 +200,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
           const newStatus = task.status === 'active' ? 'completed' : 'active';
 
           try{
-            const response = await fetch(`http://localhost:3000/api/tasks/${task.task_id}/status`, {
+            const response = await fetch(`${BASE_URL}/api/tasks/${task.task_id}/status`, {
               method: 'PATCH',
               headers: this.getAuthHeader(),
               body: JSON.stringify({ status: newStatus })
@@ -217,7 +217,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
         
         async applyFilter(status){
           try{
-            const response = await fetch(`http://localhost:3000/api/tasks/filter/${status}`, {headers: this.getAuthHeader()});
+            const response = await fetch(`${BASE_URL}/api/tasks/filter/${status}`, {headers: this.getAuthHeader()});
             
             if(response.ok){ this.tasks = await response.json(); }
           } catch(error){
