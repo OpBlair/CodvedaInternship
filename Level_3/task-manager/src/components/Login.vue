@@ -22,6 +22,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 </template>
 
 <script>
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 export default {
     name: 'LoginPage',
     data() {
@@ -42,7 +43,7 @@ export default {
             this.loading = true;
 
             try{
-                const response = await fetch(`${BASE_URL}:3000/api/auth/login`, {
+                const response = await fetch(`${BASE_URL}/api/auth/login`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ email: this.email, password: this.password })

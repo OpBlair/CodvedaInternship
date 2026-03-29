@@ -1,4 +1,3 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 <template>
     <div class="auth-container">
         <h2>Register</h2>
@@ -35,7 +34,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 </template>
 
 <script>
-
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 export default{
     name: 'RegisterPage',
     data() {
