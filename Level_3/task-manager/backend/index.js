@@ -4,9 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import authMiddleware from './middleware/authMiddleware.js'; // importing functions in authMiddleware.js
 import authController from './controllers/authController.js';  // importing functions in authController.js
-
-// Importing functions in taskModel.js
-import taskModel from './models/taskModel.js';
+import taskModel from './models/taskModel.js'; // Importing functions in taskModel.js
 
 const app = express();
 const port = process.env.port || 3000; 
@@ -18,7 +16,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.options('*', cors()); // preflight options.
+app.options('*', cors()); 
 app.use(express.json());
 
 // --- Routes ---- 
