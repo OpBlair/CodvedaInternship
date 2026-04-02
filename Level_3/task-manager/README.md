@@ -62,3 +62,18 @@ A full-stack task management application built with **Vue.js**, **Node.js/Expres
 git clone https://github.com/your-username/task-manager.git
 cd task-manager
 npm install
+
+```
+### 3. Database Setup
+
+Create the database:
+
+```sql
+CREATE DATABASE task_db;
+```
+Run the schema defined in db.js.
+
+
+👤 Author
+
+Developed by Tonny
