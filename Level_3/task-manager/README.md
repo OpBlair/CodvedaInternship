@@ -59,8 +59,8 @@ A full-stack task management application built with **Vue.js**, **Node.js/Expres
 ### 2. Installation
 
 ```bash
-git clone https://github.com/your-username/task-manager.git
-cd task-manager
+git clone https://github.com/OpBlair/CodvedaInternship.git
+cd Level_3/task-manager
 npm install
 
 ```
