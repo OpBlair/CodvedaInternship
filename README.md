@@ -66,8 +66,7 @@ This repository contains all the web development projects I completed during my 
 ## 📫 Contact
 
 - **LinkedIn:** [Tonny Blair](https://www.linkedin.com/in/tonnyblair/)  
-- **GitHub:** [opblair](https://github.com/opblair)  
-- **Email:** myemail@email.com  
+- **GitHub:** [opblair](https://github.com/opblair)
 
 ---
 
