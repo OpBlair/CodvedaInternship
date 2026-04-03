@@ -71,9 +71,23 @@ Create the database:
 ```sql
 CREATE DATABASE task_db;
 ```
-Run the schema defined in db.js.
+Run the schema defined in task-manager/database/db.js.
 
+### 4. Frontend
+```bash
+npm run dev
+```
+The frontend runs on `http://localhost:5173`
+--- 
+
+### 5. Backend Server
+```bash
+cd backend
+npm run index.js
+```
+The backend server runs on port 3000
+---
 
 👤 Author
 
-Developed by Tonny
+Developed by Tonny Blair
